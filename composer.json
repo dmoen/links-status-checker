@@ -4,5 +4,6 @@
     "minimum-stability": "stable",
     "require": {
         "phpunit/phpunit": "^6.3"
-    }
+    },
+    "bin": ["src/execute.php"]
 }
