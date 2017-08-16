@@ -1,0 +1,8 @@
+{
+    "name": "dmoen/broken-link-checker",
+    "description": "PHP application for finding broken links on website",
+    "minimum-stability": "stable",
+    "require": {
+        "phpunit/phpunit": "^6.3"
+    }
+}
