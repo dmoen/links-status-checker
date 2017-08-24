@@ -2,8 +2,17 @@
     "name": "dmoen/broken-link-checker",
     "description": "PHP application for finding broken links on website",
     "minimum-stability": "stable",
+    "bin": ["src/execute"],
     "require": {
+        "spatie/crawler": "^2.2",
+        "symfony/console": "^3.3"
+    },
+    "require-dev": {
         "phpunit/phpunit": "^6.3"
     },
-    "bin": ["src/execute.php"]
+    "autoload": {
+        "psr-4": {
+            "Dmoen\\Crawler\\": "src"
+        }
+    } 
 }
