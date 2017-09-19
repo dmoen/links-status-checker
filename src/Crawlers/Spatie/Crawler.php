@@ -2,7 +2,6 @@
 namespace Dmoen\Crawler\Crawlers\Spatie;
 
 use Dmoen\Crawler\Crawlers\CrawlerInterface;
-use Dmoen\Crawler\Crawlers\Spatie\Observer;
 use Spatie\Crawler\Crawler as CrawlSource;
 
 class Crawler implements CrawlerInterface
@@ -22,6 +21,13 @@ class Crawler implements CrawlerInterface
 
 		return $this;
 	}
+
+    public function watchStatus($status, Callable $onFound)
+    {
+        $this->observer->setUrlWatchCallback($status, $onFound);
+
+        return $this;
+    }
 
 	public function setOnFail(Callable $onFail)
 	{

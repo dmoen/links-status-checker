@@ -30,6 +30,15 @@ app.get('/dir/subdir/link6', function (request, response) {
     response.end('You are on /dir/subdir/link6<a href="/link1">link 1</a>');
 });
 
+app.get('/link7', function (request, response) {
+    response.end('You are on /link7<a href="/link500">link 1</a>');
+});
+
+app.get('/link500', function (request, response) {
+    response.status(500);
+    response.end('');
+});
+
 let server = app.listen(8080, function () {
     const host = 'localhost';
     const port = server.address().port;

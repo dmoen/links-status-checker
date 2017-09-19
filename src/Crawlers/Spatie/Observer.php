@@ -18,8 +18,19 @@ class Observer implements CrawlObserver
 
 	private $onComplete;
 
+	private $watchStatus;
 
-	public function setUrlCrawlStartCallback(Callable $onUrlCrawlStart)
+    private $watchCallback;
+
+    public function setUrlWatchCallback($watchStatus, Callable $watchCallback)
+    {
+        $this->watchStatus = $watchStatus;
+        $this->watchCallback = $watchCallback;
+
+        return $this;
+    }
+
+    public function setUrlCrawlStartCallback(Callable $onUrlCrawlStart)
 	{
 		$this->onUrlCrawlStart = $onUrlCrawlStart;
 
@@ -71,6 +82,10 @@ class Observer implements CrawlObserver
      */
     public function hasBeenCrawled(Url $url, $response, Url $foundOnUrl = null)
     {
+        if($response->getStatusCode() >= 200 && $response->getStatusCode() == $this->watchStatus && $this->watchCallback){
+            call_user_func($this->watchCallback, (string)$url, $response->getStatusCode(), (string)$foundOnUrl);
+        }
+
     	if($response->getStatusCode() >= 200 && $response->getStatusCode() < 400){
     		call_user_func($this->onUrlCrawlSuccess, (string)$url, $response->getStatusCode(), (string)$foundOnUrl);
     		return;
