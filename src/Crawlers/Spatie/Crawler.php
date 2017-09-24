@@ -3,6 +3,8 @@ namespace Dmoen\Crawler\Crawlers\Spatie;
 
 use Dmoen\Crawler\Crawlers\CrawlerInterface;
 use Spatie\Crawler\Crawler as CrawlSource;
+use GuzzleHttp\RequestOptions;
+use Spatie\Crawler\CrawlInternalUrls;
 
 class Crawler implements CrawlerInterface
 {
@@ -16,11 +18,24 @@ class Crawler implements CrawlerInterface
 	public function setUrl(string $url)
 	{
 		$this->url = $url;
-		$this->crawlTool = CrawlSource::create();
+		$this->crawlTool = CrawlSource::create([
+            RequestOptions::COOKIES => true,
+            RequestOptions::CONNECT_TIMEOUT => 25,
+            RequestOptions::TIMEOUT => 25,
+            RequestOptions::ALLOW_REDIRECTS => false,
+            RequestOptions::VERIFY => false
+        ]);
 		$this->observer = new Observer();
 
 		return $this;
 	}
+
+	public function ignoreExternal()
+    {
+        $this->crawlTool->setCrawlProfile(new CrawlInternalUrls($this->url));
+
+        return $this;
+    }
 
     public function watchStatus($status, Callable $onFound)
     {

@@ -1,8 +1,8 @@
 {
-    "name": "dmoen/broken-link-checker",
-    "description": "PHP application for finding broken links on website",
+    "name": "dmoen/site-status",
+    "description": "Check various stuff on your website",
     "minimum-stability": "stable",
-    "bin": ["src/execute"],
+    "bin": ["src/site-status"],
     "require": {
         "spatie/crawler": "^2.2",
         "symfony/console": "^3.3"

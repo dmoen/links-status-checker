@@ -8,7 +8,7 @@ class CrawlerFactory
 
 	public static function build()
 	{
-		return new SpatieCrawler;
+		return new Crawler;
 	}
 
 }

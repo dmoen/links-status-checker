@@ -13,5 +13,9 @@ interface CrawlerInterface
 
 	public function setOnCrawlStart(Callable $onStart);
 
+	public function watchStatus($status, Callable $onFound);
+
+	public function ignoreExternal();
+
 	public function start();
 }

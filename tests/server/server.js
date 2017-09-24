@@ -15,7 +15,7 @@ app.get('/link2', function (request, response) {
 });
 
 app.get('/link3', function (request, response) {
-    response.end('You are on link3<a href="/notExists">not exists</a>');
+    response.end('You are on link3<a href="/notExists">not exists</a><br><a href="/notExists2">not exists</a>');
 });
 
 app.get('/dir/link4', function (request, response) {
@@ -32,6 +32,10 @@ app.get('/dir/subdir/link6', function (request, response) {
 
 app.get('/link7', function (request, response) {
     response.end('You are on /link7<a href="/link500">link 1</a>');
+});
+
+app.get('/link10', function (request, response) {
+    response.end('You are on /link10<a href="http://www.den.se">link 1</a>');
 });
 
 app.get('/link500', function (request, response) {

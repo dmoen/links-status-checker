@@ -10,8 +10,6 @@ class Observer implements CrawlObserver
 
     private $onUrlCrawlStart;
 
-	private $onUrlCrawled;
-
 	private $onUrlCrawlSuccess;
 
 	private $onUrlCrawlFailed;
@@ -68,6 +66,10 @@ class Observer implements CrawlObserver
      */
     public function willCrawl(Url $url)
     {
+        if(!$this->onUrlCrawlStart){
+            return;
+        }
+
         call_user_func($this->onUrlCrawlStart, (string)$url);
     }
 
@@ -82,16 +84,20 @@ class Observer implements CrawlObserver
      */
     public function hasBeenCrawled(Url $url, $response, Url $foundOnUrl = null)
     {
-        if($response->getStatusCode() >= 200 && $response->getStatusCode() == $this->watchStatus && $this->watchCallback){
-            call_user_func($this->watchCallback, (string)$url, $response->getStatusCode(), (string)$foundOnUrl);
+        $code = ($response) ? $response->getStatusCode() : 404;
+
+        if($code == $this->watchStatus && $this->watchCallback){
+            call_user_func($this->watchCallback, (string)$url, $code, (string)$foundOnUrl, $response);
         }
 
-    	if($response->getStatusCode() >= 200 && $response->getStatusCode() < 400){
-    		call_user_func($this->onUrlCrawlSuccess, (string)$url, $response->getStatusCode(), (string)$foundOnUrl);
+    	if($this->onUrlCrawlSuccess && $code >= 200 && $code < 400){
+    		call_user_func($this->onUrlCrawlSuccess, (string)$url, $code, (string)$foundOnUrl, $response);
     		return;
     	}
 
-    	call_user_func($this->onUrlCrawlFailed, (string)$url, $response->getStatusCode(), (string)$foundOnUrl);
+    	if($this->onUrlCrawlFailed && $code >= 400){
+            call_user_func($this->onUrlCrawlFailed, (string)$url, $code, (string)$foundOnUrl, $response);
+        }
     }
 
     /**
@@ -101,6 +107,10 @@ class Observer implements CrawlObserver
      */
     public function finishedCrawling()
     {
+        if(!$this->onComplete){
+            return;
+        }
+
         call_user_func($this->onComplete);
     }
 }

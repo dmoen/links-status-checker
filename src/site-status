@@ -1,0 +1,17 @@
+<?php
+// application.php
+
+require dirname(__DIR__).'/vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use Dmoen\Crawler\Command\BrokenLinksCommand;
+use Dmoen\Crawler\Command\RespSearchCommand;
+use Dmoen\Crawler\Command\StatusSearchCommand;
+
+$application = new Application();
+
+$application->add(new BrokenLinksCommand());
+$application->add(new RespSearchCommand());
+$application->add(new StatusSearchCommand());
+
+$application->run();
